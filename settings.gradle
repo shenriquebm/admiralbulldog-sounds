@@ -1,2 +1,3 @@
 rootProject.name = 'admiralbulldog-sounds'
 include 'debug'
+include 'v2'
