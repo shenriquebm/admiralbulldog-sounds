@@ -14,18 +14,21 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 
 object GameStateMonitor {
     private val coroutineScope = CoroutineScope(IO + Job())
     private val logger = LoggerFactory.getLogger(GameStateMonitor::class.java)
     private val server = createServer()
-    private var onUpdate: (GameState) -> Unit = {}
+    private var onUpdate: (() -> Unit)? = null
 
-    fun setOnUpdateCallback(onUpdate: (GameState) -> Unit) {
+    fun onFirstUpdate(onUpdate: () -> Unit) {
         this.onUpdate = onUpdate
     }
 
@@ -40,8 +43,14 @@ object GameStateMonitor {
         coroutineScope.cancel()
     }
 
-    private fun processNewGameState(state: GameState) {
+    private fun processNewGameState(state: GameState) = GlobalScope.launch {
         // TODO: Implement me!
+        withContext(Main) {
+            if (onUpdate != null) {
+                onUpdate?.invoke()
+                onUpdate = null
+            }
+        }
     }
 
     private fun createServer(): ApplicationEngine {
