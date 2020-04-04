@@ -2,18 +2,16 @@ package com.github.mrbean355.admiralbulldog.sounds
 
 import com.github.mrbean355.admiralbulldog.events.SoundEventType
 import com.github.mrbean355.admiralbulldog.model.SoundBiteRepository
-import javafx.beans.property.SimpleStringProperty
+import javafx.beans.property.BooleanProperty
 import tornadofx.ViewModel
+import tornadofx.toObservable
 
 class ChooseSoundEventsViewModel : ViewModel() {
     private val soundBiteRepository = SoundBiteRepository()
-    private val names: MutableMap<SoundEventType, SimpleStringProperty> = mutableMapOf()
 
-    val soundEventTypes = soundBiteRepository.getAllSoundEventTypes()
+    val soundEventTypes = soundBiteRepository.getAllSoundEventTypes().toObservable()
 
-    fun getName(event: SoundEventType): SimpleStringProperty {
-        val prop = names.getOrPut(event) { SimpleStringProperty() }
-        prop.set(event.friendlyName)
-        return prop
+    fun getProperty(eventType: SoundEventType): BooleanProperty {
+        return soundBiteRepository.getEventEnabled(eventType)
     }
 }

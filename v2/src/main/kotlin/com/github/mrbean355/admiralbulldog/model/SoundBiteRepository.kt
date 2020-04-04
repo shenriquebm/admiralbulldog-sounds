@@ -12,10 +12,12 @@ import com.github.mrbean355.admiralbulldog.events.OnSmoked
 import com.github.mrbean355.admiralbulldog.events.OnVictory
 import com.github.mrbean355.admiralbulldog.events.Periodically
 import com.github.mrbean355.admiralbulldog.events.SoundEventType
+import javafx.beans.property.BooleanProperty
+import javafx.beans.property.SimpleBooleanProperty
 
 class SoundBiteRepository {
 
-    fun getAllSoundEventTypes(): Collection<SoundEventType> {
+    fun getAllSoundEventTypes(): List<SoundEventType> {
         return listOf(
                 OnBountyRunesSpawn::class,
                 OnDeath::class,
@@ -29,5 +31,15 @@ class SoundBiteRepository {
                 OnVictory::class,
                 Periodically::class
         )
+    }
+
+    fun getEventEnabled(eventType: SoundEventType): BooleanProperty {
+        return eventType.booleanBinding(SoundBiteCache::isEventEnabled, SoundBiteCache::setEventEnabled)
+    }
+
+    private fun <T> T.booleanBinding(getter: (T) -> Boolean, setter: (T, Boolean) -> Unit): BooleanProperty {
+        return SimpleBooleanProperty(getter(this)).apply {
+            addListener { _, _, newValue -> setter(this@booleanBinding, newValue) }
+        }
     }
 }
