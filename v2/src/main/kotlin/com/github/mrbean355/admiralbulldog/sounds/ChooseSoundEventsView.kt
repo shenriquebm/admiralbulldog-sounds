@@ -1,6 +1,7 @@
 package com.github.mrbean355.admiralbulldog.sounds
 
 import com.github.mrbean355.admiralbulldog.resources.SPACING_SMALL
+import com.github.mrbean355.admiralbulldog.resources.getString
 import javafx.geometry.Insets
 import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
@@ -16,7 +17,7 @@ import tornadofx.vbox
 private val HOVER_BACKGROUND = Background(BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY))
 private val INACTIVE_BACKGROUND = Background(BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY))
 
-class ChooseSoundEventsView : View() {
+class ChooseSoundEventsView : View(getString("main_tab_choose_sounds")) {
     private val viewModel by inject<ChooseSoundEventsViewModel>()
 
     override val root = scrollpane(fitToWidth = true) {

@@ -5,30 +5,22 @@ import com.github.mrbean355.admiralbulldog.resources.WINDOW_HEIGHT
 import com.github.mrbean355.admiralbulldog.resources.WINDOW_WIDTH
 import com.github.mrbean355.admiralbulldog.resources.getString
 import com.github.mrbean355.admiralbulldog.sounds.ChooseSoundEventsView
+import javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE
 import tornadofx.View
-import tornadofx.borderpane
-import tornadofx.left
-import tornadofx.listmenu
+import tornadofx.tab
+import tornadofx.tabpane
 
 class MainView : View(getString("main_title")) {
 
-    override val root = borderpane {
-        left {
-            listmenu(theme = "blue") {
-                item(getString("main_tab_home")) {
-                    whenSelected { center<HomeView>() }
-                    activeItem = this
-                }
-                item(getString("main_tab_choose_sounds")) {
-                    whenSelected { center<ChooseSoundEventsView>() }
-                }
-                item(getString("main_tab_discord_bot"))
-                item(getString("main_tab_dota_mod"))
-                item(getString("main_tab_settings"))
-            }
-        }
+    override val root = tabpane {
+        tabClosingPolicy = UNAVAILABLE
         prefWidth = WINDOW_WIDTH
         prefHeight = WINDOW_HEIGHT
         primaryStage.isResizable = false
+        tab<HomeView>()
+        tab<ChooseSoundEventsView>()
+        tab(getString("main_tab_discord_bot"))
+        tab(getString("main_tab_dota_mod"))
+        tab(getString("main_tab_settings"))
     }
 }
