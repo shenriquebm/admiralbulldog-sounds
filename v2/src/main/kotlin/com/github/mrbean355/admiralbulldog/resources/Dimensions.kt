@@ -6,4 +6,5 @@ const val WINDOW_HEIGHT = 300.0
 const val SPACING_SMALL = 8.0
 const val SPACING_MEDIUM = 16.0
 
+const val TEXT_MEDIUM = 14.0
 const val TEXT_LARGE = 18.0

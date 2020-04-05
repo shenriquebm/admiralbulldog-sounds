@@ -13,7 +13,9 @@ import com.github.mrbean355.admiralbulldog.events.OnVictory
 import com.github.mrbean355.admiralbulldog.events.Periodically
 import com.github.mrbean355.admiralbulldog.events.SoundEventType
 import javafx.beans.property.BooleanProperty
+import javafx.beans.property.DoubleProperty
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleDoubleProperty
 
 class SoundBiteRepository {
 
@@ -37,9 +39,19 @@ class SoundBiteRepository {
         return eventType.booleanBinding(SoundBiteCache::isEventEnabled, SoundBiteCache::setEventEnabled)
     }
 
+    fun getEventChance(eventType: SoundEventType): DoubleProperty {
+        return eventType.doubleBinding(SoundBiteCache::getEventChance, SoundBiteCache::setEventChance)
+    }
+
     private fun <T> T.booleanBinding(getter: (T) -> Boolean, setter: (T, Boolean) -> Unit): BooleanProperty {
         return SimpleBooleanProperty(getter(this)).apply {
             addListener { _, _, newValue -> setter(this@booleanBinding, newValue) }
+        }
+    }
+
+    private fun <T> T.doubleBinding(getter: (T) -> Double, setter: (T, Double) -> Unit): DoubleProperty {
+        return SimpleDoubleProperty(getter(this)).apply {
+            addListener { _, _, newValue -> setter(this@doubleBinding, newValue.toDouble()) }
         }
     }
 }

@@ -31,3 +31,21 @@ val SoundEventType.friendlyName: String
             else -> throw IllegalArgumentException("Unexpected sound event: $this}")
         })
     }
+
+val SoundEventType.description: String
+    get() {
+        return getString(when (this) {
+            OnBountyRunesSpawn::class -> "event_desc_bounty_runes"
+            OnDeath::class -> "event_desc_death"
+            OnDefeat::class -> "event_desc_defeat"
+            OnHeal::class -> "event_desc_heal"
+            OnKill::class -> "event_desc_kill"
+            OnMatchStart::class -> "event_desc_match_start"
+            OnMidasReady::class -> "event_desc_midas_ready"
+            OnRespawn::class -> "event_desc_respawn"
+            OnSmoked::class -> "event_desc_smoked"
+            OnVictory::class -> "event_desc_victory"
+            Periodically::class -> "event_desc_periodically"
+            else -> throw IllegalArgumentException("Unexpected sound event: $this}")
+        })
+    }

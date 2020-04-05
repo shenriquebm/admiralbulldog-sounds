@@ -5,13 +5,13 @@ import com.google.gson.GsonBuilder
 import java.io.File
 
 object SoundBiteCache {
-    private const val FILE_NAME = "config2.json"
+    private const val CONFIG_FILE = "config2.json"
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
     private val config: Config
 
     init {
-        val json = File(FILE_NAME).readText()
+        val json = File(CONFIG_FILE).readText()
         config = if (json.isEmpty()) {
             Config(mutableMapOf())
         } else {
@@ -21,20 +21,38 @@ object SoundBiteCache {
     }
 
     fun isEventEnabled(eventType: SoundEventType): Boolean {
-        return config.events[eventType.key] ?: false
+        return getEvent(eventType).enabled
     }
 
     fun setEventEnabled(eventType: SoundEventType, enabled: Boolean) {
-        config.events[eventType.key] = enabled
+        getEvent(eventType).enabled = enabled
         sync()
     }
 
+    fun getEventChance(eventType: SoundEventType): Double {
+        return getEvent(eventType).chance
+    }
+
+    fun setEventChance(eventType: SoundEventType, chance: Double) {
+        getEvent(eventType).chance = chance
+        sync()
+    }
+
+    private fun getEvent(eventType: SoundEventType): Event {
+        return config.events.getOrPut(eventType.key) { Event(false, 50.0) }
+    }
+
     private fun sync() {
-        File(FILE_NAME).writeText(gson.toJson(config))
+        File(CONFIG_FILE).writeText(gson.toJson(config))
     }
 
     private class Config(
-            val events: MutableMap<String, Boolean>
+            val events: MutableMap<String, Event>
+    )
+
+    private class Event(
+            var enabled: Boolean,
+            var chance: Double
     )
 
     private inline val SoundEventType.key: String

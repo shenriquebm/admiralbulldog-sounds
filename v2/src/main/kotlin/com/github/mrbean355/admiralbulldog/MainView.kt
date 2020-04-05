@@ -4,7 +4,7 @@ import com.github.mrbean355.admiralbulldog.home.HomeView
 import com.github.mrbean355.admiralbulldog.resources.WINDOW_HEIGHT
 import com.github.mrbean355.admiralbulldog.resources.WINDOW_WIDTH
 import com.github.mrbean355.admiralbulldog.resources.getString
-import com.github.mrbean355.admiralbulldog.sounds.ChooseSoundEventsView
+import com.github.mrbean355.admiralbulldog.sounds.ViewSoundEventsView
 import javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE
 import tornadofx.View
 import tornadofx.tab
@@ -18,7 +18,7 @@ class MainView : View(getString("main_title")) {
         prefHeight = WINDOW_HEIGHT
         primaryStage.isResizable = false
         tab<HomeView>()
-        tab<ChooseSoundEventsView>()
+        tab<ViewSoundEventsView>()
         tab(getString("main_tab_discord_bot"))
         tab(getString("main_tab_dota_mod"))
         tab(getString("main_tab_settings"))
