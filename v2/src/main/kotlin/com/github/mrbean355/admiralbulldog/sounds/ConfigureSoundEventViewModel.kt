@@ -13,7 +13,7 @@ class ConfigureSoundEventViewModel : ViewModel() {
 
     val title: StringProperty = SimpleStringProperty(type.friendlyName)
     val description: StringProperty = SimpleStringProperty(type.description)
-    val isEnabled = soundBiteRepository.getEventEnabled(type)
-    val chance = soundBiteRepository.getEventChance(type)
+    val isEnabled = soundBiteRepository.getSoundEventEnabledProperty(type)
+    val chance = soundBiteRepository.getSoundEventChanceProperty(type)
     val soundBitesChosen = SimpleStringProperty(getString("event_sound_bites_chosen_many", 0))
 }

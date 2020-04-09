@@ -35,23 +35,29 @@ class SoundBiteRepository {
         )
     }
 
-    fun getEventEnabled(eventType: SoundEventType): BooleanProperty {
-        return eventType.booleanBinding(SoundBiteCache::isEventEnabled, SoundBiteCache::setEventEnabled)
-    }
-
-    fun getEventChance(eventType: SoundEventType): DoubleProperty {
-        return eventType.doubleBinding(SoundBiteCache::getEventChance, SoundBiteCache::setEventChance)
-    }
-
-    private fun <T> T.booleanBinding(getter: (T) -> Boolean, setter: (T, Boolean) -> Unit): BooleanProperty {
-        return SimpleBooleanProperty(getter(this)).apply {
-            addListener { _, _, newValue -> setter(this@booleanBinding, newValue) }
+    fun getSoundEventEnabledProperty(eventType: SoundEventType): BooleanProperty {
+        return SimpleBooleanProperty(SoundBiteCache.isEventEnabled(eventType)).apply {
+            addListener { _, _, newValue -> SoundBiteCache.setEventEnabled(eventType, newValue) }
         }
     }
 
-    private fun <T> T.doubleBinding(getter: (T) -> Double, setter: (T, Double) -> Unit): DoubleProperty {
-        return SimpleDoubleProperty(getter(this)).apply {
-            addListener { _, _, newValue -> setter(this@doubleBinding, newValue.toDouble()) }
+    fun getSoundEventChanceProperty(eventType: SoundEventType): DoubleProperty {
+        return SimpleDoubleProperty(SoundBiteCache.getEventChance(eventType)).apply {
+            addListener { _, _, newValue -> SoundBiteCache.setEventChance(eventType, newValue.toDouble()) }
         }
+    }
+
+    fun getAllSoundBites(): Collection<SoundBite> {
+        return SoundBiteCache.getAllSoundBites()
+    }
+
+    fun getSoundBiteEnabledProperty(eventType: SoundEventType, soundBite: SoundBite): BooleanProperty {
+        return SimpleBooleanProperty(SoundBiteCache.isSoundBiteEnabled(eventType, soundBite)).apply {
+            addListener { _, _, newValue -> SoundBiteCache.setSoundBiteEnabled(eventType, soundBite, newValue) }
+        }
+    }
+
+    fun isSoundBiteEnabled(eventType: SoundEventType, soundBite: SoundBite): Boolean {
+        return SoundBiteCache.isSoundBiteEnabled(eventType, soundBite)
     }
 }

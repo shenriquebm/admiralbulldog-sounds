@@ -46,7 +46,12 @@ class ConfigureSoundEventFragment : Fragment() {
             spacer() {
                 prefHeight = SPACING_SMALL
             }
-            button(getString("event_select_sound_bites"))
+            button(getString("event_select_sound_bites")) {
+                setOnAction {
+                    find<ChooseSoundBitesScreen>("type" to params["type"])
+                            .openModal(resizable = false)
+                }
+            }
         }
         prefWidth = WINDOW_WIDTH
     }

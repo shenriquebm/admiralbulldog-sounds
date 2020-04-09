@@ -6,6 +6,7 @@ import java.io.File
 
 object SoundBiteCache {
     private const val CONFIG_FILE = "config2.json"
+    private const val SOUNDS_DIR = "sounds"
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
     private val config: Config
@@ -38,8 +39,27 @@ object SoundBiteCache {
         sync()
     }
 
+    fun getAllSoundBites(): Collection<SoundBite> {
+        return File(SOUNDS_DIR).listFiles().orEmpty().map {
+            SoundBite(SOUNDS_DIR, it.name)
+        }
+    }
+
+    fun isSoundBiteEnabled(eventType: SoundEventType, soundBite: SoundBite): Boolean {
+        return soundBite.name in getEvent(eventType).sounds
+    }
+
+    fun setSoundBiteEnabled(eventType: SoundEventType, soundBite: SoundBite, enabled: Boolean) {
+        if (enabled) {
+            getEvent(eventType).sounds += soundBite.name
+        } else {
+            getEvent(eventType).sounds -= soundBite.name
+        }
+        sync()
+    }
+
     private fun getEvent(eventType: SoundEventType): Event {
-        return config.events.getOrPut(eventType.key) { Event(false, 50.0) }
+        return config.events.getOrPut(eventType.key) { Event(false, 50.0, mutableSetOf()) }
     }
 
     private fun sync() {
@@ -52,7 +72,8 @@ object SoundBiteCache {
 
     private class Event(
             var enabled: Boolean,
-            var chance: Double
+            var chance: Double,
+            val sounds: MutableSet<String>
     )
 
     private inline val SoundEventType.key: String
