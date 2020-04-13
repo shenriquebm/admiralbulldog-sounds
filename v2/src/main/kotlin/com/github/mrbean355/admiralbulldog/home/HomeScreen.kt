@@ -21,7 +21,7 @@ import tornadofx.separator
 import tornadofx.vbox
 import tornadofx.visibleWhen
 
-class HomeView : View(getString("main_tab_home")) {
+class HomeScreen : View(getString("main_tab_home")) {
     private val viewModel by inject<HomeViewModel>()
 
     override val root = vbox(spacing = SPACING_SMALL, alignment = CENTER) {

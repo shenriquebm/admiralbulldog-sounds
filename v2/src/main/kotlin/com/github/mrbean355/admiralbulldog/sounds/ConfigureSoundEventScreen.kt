@@ -1,5 +1,6 @@
 package com.github.mrbean355.admiralbulldog.sounds
 
+import com.github.mrbean355.admiralbulldog.components.slider
 import com.github.mrbean355.admiralbulldog.resources.SPACING_MEDIUM
 import com.github.mrbean355.admiralbulldog.resources.SPACING_SMALL
 import com.github.mrbean355.admiralbulldog.resources.TEXT_MEDIUM
@@ -14,10 +15,9 @@ import tornadofx.fieldset
 import tornadofx.form
 import tornadofx.label
 import tornadofx.paddingAll
-import tornadofx.slider
 import tornadofx.spacer
 
-class ConfigureSoundEventFragment : Fragment() {
+class ConfigureSoundEventScreen : Fragment() {
     private val viewModel by inject<ConfigureSoundEventViewModel>(Scope(), params)
 
     override val root = form {
@@ -32,14 +32,7 @@ class ConfigureSoundEventFragment : Fragment() {
             checkbox(getString("event_enabled"), viewModel.isEnabled)
         }
         fieldset(getString("event_chance")) {
-            slider(0.0, 100.0) {
-                valueProperty().bindBidirectional(viewModel.chance)
-                isShowTickLabels = true
-                isShowTickMarks = true
-                majorTickUnit = 10.0
-                minorTickCount = 1
-                isSnapToTicks = true
-            }
+            slider(viewModel.chance)
         }
         fieldset(getString("event_sound_bites")) {
             label(viewModel.soundBitesChosen)

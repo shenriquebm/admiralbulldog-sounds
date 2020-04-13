@@ -24,7 +24,7 @@ import tornadofx.vbox
 private val HOVER_BACKGROUND = Background(BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY))
 private val INACTIVE_BACKGROUND = Background(BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY))
 
-class ViewSoundEventsView : View(getString("main_tab_choose_sounds")) {
+class ViewSoundEventsScreen : View(getString("main_tab_choose_sounds")) {
     private val viewModel by inject<ViewSoundEventsViewModel>()
 
     override val root = borderpane {
@@ -49,7 +49,7 @@ class ViewSoundEventsView : View(getString("main_tab_choose_sounds")) {
                                 background = INACTIVE_BACKGROUND
                             }
                             setOnMouseClicked {
-                                find<ConfigureSoundEventFragment>("type" to eventType)
+                                find<ConfigureSoundEventScreen>("type" to eventType)
                                         .openModal(resizable = false)
                             }
                         }

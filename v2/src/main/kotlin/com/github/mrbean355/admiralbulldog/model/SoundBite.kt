@@ -11,11 +11,11 @@ class SoundBite(directory: String, fileName: String) {
     private val path = "$directory/$fileName"
     val name = fileName.substringBeforeLast('.')
 
-    // TODO: Make volume configurable.
-    fun play() {
+    /** @param volume in the range of [0, 100]. */
+    fun play(volume: Double) {
         val media = Media(File(path).toURI().toString())
         MediaPlayer(media).apply {
-            this.volume = 0.2
+            this.volume = volume / 100.0
             onEndOfMedia = Runnable {
                 dispose()
                 players.remove(this)

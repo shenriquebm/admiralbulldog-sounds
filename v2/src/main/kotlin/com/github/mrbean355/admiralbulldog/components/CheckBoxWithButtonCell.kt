@@ -1,4 +1,4 @@
-package com.github.mrbean355.admiralbulldog
+package com.github.mrbean355.admiralbulldog.components
 
 import javafx.beans.property.BooleanProperty
 import javafx.scene.control.Button

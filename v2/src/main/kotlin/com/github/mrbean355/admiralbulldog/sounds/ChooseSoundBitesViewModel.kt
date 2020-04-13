@@ -36,6 +36,8 @@ class ChooseSoundBitesViewModel : ViewModel() {
         return soundBiteRepository.getSoundBiteEnabledProperty(type, soundBite)
     }
 
+    fun getVolume(): Double = soundBiteRepository.getVolume()
+
     private fun filter(query: String) {
         searchResults.clear()
         if (query.isEmpty()) {

@@ -20,6 +20,15 @@ object AppConfig {
         }
     }
 
+    fun getVolume(): Double {
+        return config.volume
+    }
+
+    fun setVolume(volume: Double) {
+        config.volume = volume
+        save()
+    }
+
     fun isEventEnabled(type: SoundEventType): Boolean {
         return type.asEvent().enabled
     }
@@ -52,7 +61,13 @@ object AppConfig {
     }
 
     private fun SoundEventType.asEvent(): Event {
-        return config.events.getOrPut(key) { Event() }
+        var event = config.events[key]
+        if (event == null) {
+            event = Event()
+            config.events[key] = event
+            save()
+        }
+        return event
     }
 
     private fun save() {
@@ -60,6 +75,7 @@ object AppConfig {
     }
 
     private class Config(
+            var volume: Double = 20.0,
             val events: MutableMap<String, Event> = mutableMapOf()
     )
 

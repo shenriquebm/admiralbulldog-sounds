@@ -37,6 +37,16 @@ class SoundBiteRepository {
         }
     }
 
+    fun getVolumeProperty(): DoubleProperty {
+        return SimpleDoubleProperty(AppConfig.getVolume()).apply {
+            addListener { _, _, newValue -> AppConfig.setVolume(newValue.toDouble()) }
+        }
+    }
+
+    fun getVolume(): Double {
+        return AppConfig.getVolume()
+    }
+
     fun getSoundEventChanceProperty(eventType: SoundEventType): DoubleProperty {
         return SimpleDoubleProperty(AppConfig.getEventChance(eventType)).apply {
             addListener { _, _, newValue -> AppConfig.setEventChance(eventType, newValue.toDouble()) }

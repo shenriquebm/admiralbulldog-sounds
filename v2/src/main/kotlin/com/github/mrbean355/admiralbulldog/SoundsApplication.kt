@@ -8,7 +8,7 @@ import tornadofx.Stylesheet
 import tornadofx.launch
 
 class SoundsApplication : App(
-        primaryView = MainView::class,
+        primaryView = MainScreen::class,
         icon = BulldogIcon(),
         stylesheet = *arrayOf(AppStyles::class)
 ) {

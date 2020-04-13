@@ -82,7 +82,7 @@ object GameStateMonitor {
             if (random.nextFloat() < chance) {
                 val choices = soundBiteRepository.getSelectedSoundBites(this::class)
                 if (choices.isNotEmpty()) {
-                    choices.random().play()
+                    choices.random().play(soundBiteRepository.getVolume())
                 }
             }
         }
